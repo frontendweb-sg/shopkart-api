@@ -67,7 +67,6 @@ const updateCategory = async (
 	try {
 		const status = req.query?.query;
 		if (status) {
-			console.log("status", status);
 			return await activeInactiveCategory(req, res, next);
 		}
 		const { title } = req.body;
@@ -124,7 +123,7 @@ const activeInactiveCategory = async (
 	next: NextFunction
 ) => {
 	const categoryId = req.params.categoryId;
-	const status = req.query?.status;
+	const status = req.query?.query;
 	try {
 		const category = await Category.findById(categoryId);
 
@@ -134,12 +133,10 @@ const activeInactiveCategory = async (
 
 		if (status === "active") {
 			category.active = true;
-			//await Post.updateMany({ category: catId }, { $set: { active: true } }); // delete all post relative to category
 		}
 
 		if (status === "inactive") {
 			category.active = false;
-			//await Post.updateMany({ category: catId }, { $set: { active: false } }); // delete all post relative to category
 		}
 
 		await category.save();

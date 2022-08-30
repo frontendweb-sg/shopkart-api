@@ -8,6 +8,9 @@ import { connectDb } from "./db";
 import { errorHandler } from "./middleware/error-handler";
 import { userRoute } from "./routes/user";
 import { categoryRoute } from "./routes/category";
+import { brandRoute } from "./routes/brand";
+import { colorRoute } from "./routes/color";
+import { sizeRoute } from "./routes/size";
 
 // App
 const app = express();
@@ -27,6 +30,9 @@ app.get("/api", (req, res, next) => {
 
 app.use("/api/user", userRoute);
 app.use("/api/category", categoryRoute);
+app.use("/api/brand", brandRoute);
+app.use("/api/color", colorRoute);
+app.use("/api/size", sizeRoute);
 
 app.use(errorHandler);
 // server listning

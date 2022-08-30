@@ -147,10 +147,4 @@ const activeInactiveCategory = async (
 };
 
 // export
-export {
-	getCategories,
-	addCategory,
-	updateCategory,
-	deleteCategory,
-	activeInactiveCategory,
-};
+export { getCategories, addCategory, updateCategory, deleteCategory };

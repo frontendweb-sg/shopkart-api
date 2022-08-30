@@ -32,16 +32,16 @@ const addBrand = async (req: Request, res: Response, next: NextFunction) => {
 
 		const brand = (await Brand.findOne({ slug })) as IBrandDoc;
 		if (brand) {
-			throw new Error("Category already existed!");
+			throw new Error("Brand already existed!");
 		}
 
-		const newCat = Brand.addBrand({
+		const newBrand = Brand.addBrand({
 			title,
 			slug,
 			order: order++,
 		});
 
-		const result = await newCat.save();
+		const result = await newBrand.save();
 		return res.status(201).send(result);
 	} catch (error) {
 		next(error);
@@ -65,7 +65,7 @@ const updateBrand = async (req: Request, res: Response, next: NextFunction) => {
 		const brandId = req.params.brandId;
 		const brand = await Brand.findById(brandId);
 		if (!brand) {
-			throw new Error("Category not found!");
+			throw new Error("Brand not found!");
 		}
 
 		const result = await Brand.findByIdAndUpdate(
@@ -96,7 +96,7 @@ const deleteBrand = async (req: Request, res: Response, next: NextFunction) => {
 		const brandId = req.params.brandId;
 		const brand = await Brand.findById(brandId);
 		if (!brand) {
-			throw new Error("Category not found!");
+			throw new Error("Brand not found!");
 		}
 		await brand.remove();
 		return res.status(200).send({ _id: brandId });
@@ -116,7 +116,7 @@ const activeInactiveBrand = async (
 		const brand = await Brand.findById(brandId);
 
 		if (!brand) {
-			throw new Error("Category not found!");
+			throw new Error("Brand not found!");
 		}
 
 		if (status === "active") {
@@ -135,4 +135,4 @@ const activeInactiveBrand = async (
 };
 
 // export
-export { getBrands, addBrand, updateBrand, deleteBrand, activeInactiveBrand };
+export { getBrands, addBrand, updateBrand, deleteBrand };

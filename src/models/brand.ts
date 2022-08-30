@@ -1,17 +1,17 @@
 import mongoose, { Document, Model, Schema } from "mongoose";
 import { IUserDoc } from "./user";
 
-const CATEGORY_TABLE_NAME = "category";
-interface ICategory {
+const BRAND_TABLE_NAME = "brand";
+interface IBrand {
 	title: string;
 	slug: string;
 	order: number;
 	active?: boolean;
 }
 
-interface ICategoryDoc extends ICategory, Document<ICategory> {}
-interface ICategoryModel extends ICategory, Model<ICategory> {
-	addCategory(attr: ICategory): ICategoryDoc;
+interface IBrandDoc extends IBrand, Document<IBrand> {}
+interface IBrandModel extends IBrand, Model<IBrand> {
+	addBrand(attr: IBrand): IBrandDoc;
 }
 
 const schema = new Schema(
@@ -32,9 +32,6 @@ const schema = new Schema(
 	}
 );
 
-schema.statics.addCategory = (cat: ICategory) => new Category(cat);
-const Category = mongoose.model<IUserDoc, ICategoryModel>(
-	CATEGORY_TABLE_NAME,
-	schema
-);
-export { CATEGORY_TABLE_NAME, Category, ICategoryDoc };
+schema.statics.addBrand = (cat: IBrandDoc) => new Brand(cat);
+const Brand = mongoose.model<IBrandDoc, IBrandModel>(BRAND_TABLE_NAME, schema);
+export { BRAND_TABLE_NAME, Brand, IBrandDoc };

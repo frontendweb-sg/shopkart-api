@@ -63,4 +63,4 @@ const schema = new Schema(
 );
 
 const Product = mongoose.model<IProductDoc>(PRODUCT_TABLE_NAME, schema);
-export { Product };
+export { PRODUCT_TABLE_NAME, IProductDoc, Product };

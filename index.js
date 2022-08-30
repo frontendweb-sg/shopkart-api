@@ -14,9 +14,13 @@
  * 3. Pants
  *
  * Size
- *  [{
+ *  [
+ *  {
  *  idleFor:'Men',
  *  type:'Top Wear',
- *  sizes:['s','m','l','xl','ll','xll','xx'],
- *   }]
+ *  sizes:[s's','m','l','xl','ll','xll','xx'],
+ *  }
+ * ]
+ *
+ * https://github.com/nicholaskajoh/fashion-ecommerce-platform-db-schema
  */

@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { BadRequestError } from "../errors/bad-request-error";
 import { NotFoundError } from "../errors/not-found-error";
 import { Color, IColorDoc } from "../models/color";
-import { slugname } from "../utils";
+import { increaseOrder, slugname } from "../utils";
 
 /**
  * All categories
@@ -25,13 +25,13 @@ const getColors = async (req: Request, res: Response, next: NextFunction) => {
  * @param res
  * @param next
  */
-let order = 0;
+
 const addColor = async (req: Request, res: Response, next: NextFunction) => {
 	try {
+		const colors = (await Color.find()) as IColorDoc[];
 		const { name, hashcode } = req.body;
 
 		const slug = slugname(name);
-
 		const color = (await Color.findOne({ slug })) as IColorDoc;
 		if (color) {
 			throw new BadRequestError("Color already existed!");
@@ -41,6 +41,7 @@ const addColor = async (req: Request, res: Response, next: NextFunction) => {
 			name,
 			slug,
 			hashcode,
+			order: increaseOrder(colors),
 		});
 
 		const result = await newColor.save();
@@ -59,10 +60,11 @@ const addColor = async (req: Request, res: Response, next: NextFunction) => {
  */
 const updateColor = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const status = req.query?.query;
+		const status = req.query?.status;
 		if (status) {
 			return await activeInactiveColor(req, res, next);
 		}
+
 		const { name, hashcode } = req.body;
 		const colorId = req.params.colorId;
 		const color = await Color.findById(colorId);
@@ -115,7 +117,7 @@ const activeInactiveColor = async (
 	next: NextFunction
 ) => {
 	const brandId = req.params.brandId;
-	const status = req.query?.query;
+	const status = req.query?.status;
 	try {
 		const color = await Color.findById(brandId);
 

@@ -8,9 +8,8 @@ interface IProduct {
 	brand: string;
 	title: string;
 	slug: string;
-	image: string[];
+	image: string;
 	description: string;
-	excerpt: string;
 	idleFor: string;
 	color: string[];
 	size: string[];
@@ -21,6 +20,7 @@ interface IProduct {
 	stock: number;
 	active: boolean;
 	status: string;
+	attributes: [{ name: String; value: String }];
 }
 
 interface IProductDoc extends IProduct, Document<IProduct> {}

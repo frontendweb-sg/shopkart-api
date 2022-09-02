@@ -6,6 +6,7 @@ interface IColor {
 	slug: string;
 	hashcode: string;
 	active: boolean;
+	order: number;
 }
 
 interface IColorDoc extends IColor, Document<IColor> {}
@@ -16,6 +17,7 @@ const schema = new Schema(
 		slug: { type: String, require: true },
 		hashcode: { type: String, require: true, length: { min: 7, max: 7 } },
 		active: { type: Boolean, default: true },
+		order: { type: Number, default: 0 },
 	},
 	{
 		timestamps: true,

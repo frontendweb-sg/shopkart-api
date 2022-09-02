@@ -80,10 +80,5 @@ const activeInactiveProduct = async (
 	next: NextFunction
 ) => {};
 
-export {
-	getProducts,
-	addProduct,
-	updateProduct,
-	deleteProduct,
-	activeInactiveProduct,
-};
+// export
+export { getProducts, getProduct, addProduct, updateProduct, deleteProduct };

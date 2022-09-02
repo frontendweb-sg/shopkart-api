@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from "express";
+import { BadRequestError } from "../errors/bad-request-error";
+import { NotFoundError } from "../errors/not-found-error";
 import { Size, ISizeDoc } from "../models/size";
-import { slugname } from "../utils";
+import { increaseOrder, slugname } from "../utils";
 
 /**
  * All categories
@@ -23,16 +25,16 @@ const getSizes = async (req: Request, res: Response, next: NextFunction) => {
  * @param res
  * @param next
  */
-let order = 0;
 const addSize = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const { sizes, idleFor, type } = req.body;
+		const sizesList = (await Size.find()) as ISizeDoc[];
 
-		const slug = slugname(idleFor);
+		const { sizes, idleFor, type } = req.body;
+		const slug = slugname(type);
 
 		const size = (await Size.findOne({ slug })) as ISizeDoc;
 		if (size) {
-			throw new Error("Size already existed!");
+			throw new BadRequestError("Size already existed!");
 		}
 
 		const newSize = new Size({
@@ -40,6 +42,7 @@ const addSize = async (req: Request, res: Response, next: NextFunction) => {
 			slug,
 			idleFor,
 			type,
+			order: increaseOrder(sizesList),
 		});
 
 		const result = await newSize.save();
@@ -58,7 +61,7 @@ const addSize = async (req: Request, res: Response, next: NextFunction) => {
  */
 const updateSize = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const status = req.query?.query;
+		const status = req.query?.status;
 		if (status) {
 			return await activeInactiveSize(req, res, next);
 		}
@@ -66,7 +69,7 @@ const updateSize = async (req: Request, res: Response, next: NextFunction) => {
 		const sizeId = req.params.sizeId;
 		const size = await Size.findById(sizeId);
 		if (!size) {
-			throw new Error("Size not found!");
+			throw new NotFoundError("Size not found!");
 		}
 
 		const result = await Size.findByIdAndUpdate(
@@ -76,7 +79,7 @@ const updateSize = async (req: Request, res: Response, next: NextFunction) => {
 					idleFor,
 					sizes,
 					type,
-					slug: slugname(idleFor),
+					slug: slugname(type),
 				},
 			},
 			{ new: true }
@@ -99,7 +102,7 @@ const deleteSize = async (req: Request, res: Response, next: NextFunction) => {
 		const sizeId = req.params.sizeId;
 		const size = await Size.findById(sizeId);
 		if (!size) {
-			throw new Error("Size not found!");
+			throw new NotFoundError("Size not found!");
 		}
 		await Size.remove();
 		return res.status(200).send({ _id: sizeId });
@@ -114,12 +117,12 @@ const activeInactiveSize = async (
 	next: NextFunction
 ) => {
 	const sizeId = req.params.sizeId;
-	const status = req.query?.query;
+	const status = req.query?.status;
 	try {
 		const size = await Size.findById(sizeId);
 
 		if (!size) {
-			throw new Error("Size not found!");
+			throw new NotFoundError("Size not found!");
 		}
 
 		if (status === "active") {

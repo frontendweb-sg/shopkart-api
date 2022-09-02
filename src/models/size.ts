@@ -7,6 +7,7 @@ interface ISize {
 	sizes: string[];
 	type: string;
 	active: boolean;
+	order: number;
 }
 
 interface ISizeDoc extends ISize, Document<ISize> {}
@@ -18,6 +19,7 @@ const schema = new Schema(
 		type: { type: String, require: true },
 		sizes: { type: [String], require },
 		active: { type: Boolean, default: true },
+		order: { type: Number, default: 0 },
 	},
 	{
 		timestamps: true,

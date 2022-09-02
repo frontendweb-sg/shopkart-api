@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { BadRequestError } from "../errors/bad-request-error";
+import { NotFoundError } from "../errors/not-found-error";
 import { Product, IProductDoc } from "../models/product";
 import { slugname } from "../utils";
 
@@ -47,16 +48,17 @@ const getProduct = async (req: Request, res: Response, next: NextFunction) => {
 const addProduct = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const slug = slugname(req.body.title);
+
 		const product = (await Product.findOne({ slug })) as IProductDoc;
 		if (product) {
 			throw new BadRequestError("Product already existed!");
 		}
 
 		const newProduct = new Product({ ...req.body, slug });
-
 		const result = await (
 			await (await newProduct.save()).populate("category")
 		).populate("brand");
+
 		return res.status(201).send(result);
 	} catch (error) {
 		next(error);
@@ -73,7 +75,20 @@ const updateProduct = async (
 	req: Request,
 	res: Response,
 	next: NextFunction
-) => {};
+) => {
+	try {
+		const productId = req.params.productId;
+		req.body.slug = slugname(req.body.title);
+		const product = await Product.findByIdAndUpdate(
+			productId,
+			{ $set: req.body },
+			{ new: true }
+		);
+		return res.status(200).send(product);
+	} catch (error) {
+		next(error);
+	}
+};
 
 /**
  * Add product
@@ -85,7 +100,15 @@ const deleteProduct = async (
 	req: Request,
 	res: Response,
 	next: NextFunction
-) => {};
+) => {
+	try {
+		const productId = req.params.productId;
+		await Product.findByIdAndDelete(productId);
+		return res.status(200).send({ _id: productId });
+	} catch (error) {
+		next(error);
+	}
+};
 
 /**
  * Add product

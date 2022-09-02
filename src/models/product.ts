@@ -50,6 +50,12 @@ const schema = new Schema(
 		offer_price: { type: Number, default: 0 },
 		descount: { type: Number, default: 0 },
 		images: { type: [String] },
+		attributes: [
+			{
+				name: { type: String },
+				value: { type: String },
+			},
+		],
 	},
 	{
 		timestamps: true,

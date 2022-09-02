@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { BadRequestError } from "../errors/bad-request-error";
 import { NotFoundError } from "../errors/not-found-error";
 import { Brand, IBrandDoc } from "../models/brand";
-import { slugname } from "../utils";
+import { increaseOrder, slugname } from "../utils";
 
 /**
  * All categories
@@ -12,7 +12,7 @@ import { slugname } from "../utils";
  */
 const getBrands = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const brands = (await Brand.find()) as IBrandDoc[];
+		const brands = (await Brand.find().sort({ order: 1 })) as IBrandDoc[];
 		return res.status(200).send(brands);
 	} catch (error) {
 		next(error);
@@ -25,21 +25,22 @@ const getBrands = async (req: Request, res: Response, next: NextFunction) => {
  * @param res
  * @param next
  */
-let order = 0;
+
 const addBrand = async (req: Request, res: Response, next: NextFunction) => {
 	try {
+		const brands = (await Brand.find()) as IBrandDoc[];
+
 		const { title } = req.body;
 		const slug = slugname(title);
 		const brand = (await Brand.findOne({ slug })) as IBrandDoc;
-
 		if (brand) {
 			throw new BadRequestError("Brand already existed!");
 		}
 
-		const newBrand = Brand.addBrand({
+		const newBrand = new Brand({
 			title,
 			slug,
-			order: order++,
+			order: increaseOrder<IBrandDoc>(brands),
 		});
 
 		const result = await newBrand.save();
@@ -69,8 +70,6 @@ const updateBrand = async (req: Request, res: Response, next: NextFunction) => {
 		if (!brand) {
 			throw new NotFoundError("Brand not found!");
 		}
-
-		console.log(brand, req.body);
 		const result = await Brand.findByIdAndUpdate(
 			{ _id: brandId },
 			{

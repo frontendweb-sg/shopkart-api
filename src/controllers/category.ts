@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { BadRequestError } from "../errors/bad-request-error";
 import { NotFoundError } from "../errors/not-found-error";
 import { Category, ICategoryDoc } from "../models/category";
-import { slugname } from "../utils";
+import { increaseOrder, slugname } from "../utils";
 
 /**
  * All categories
@@ -32,18 +32,19 @@ const getCategories = async (
 let order = 0;
 const addCategory = async (req: Request, res: Response, next: NextFunction) => {
 	try {
+		const categories = (await Category.find()) as ICategoryDoc[];
 		const { title } = req.body;
-		const slug = slugname(title);
 
+		const slug = slugname(title);
 		const category = (await Category.findOne({ slug })) as ICategoryDoc;
 		if (category) {
 			throw new BadRequestError("Category already existed!");
 		}
 
-		const newCat = Category.addCategory({
+		const newCat = new Category({
 			title,
 			slug,
-			order: order++,
+			order: increaseOrder(categories),
 		});
 
 		const result = await newCat.save();

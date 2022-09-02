@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { BadRequestError } from "../errors/bad-request-error";
 import { Page, IPageDoc } from "../models/page";
 import { slugname } from "../utils";
 import { EStatus } from "../utils/enums/EStatus";
@@ -45,11 +46,11 @@ const getPage = async (req: Request, res: Response, next: NextFunction) => {
 let order = 0;
 const addPage = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const { title, description, excerpt, heroImage } = req.body;
+		const { title, description, excerpt } = req.body;
 		const slug = slugname(title);
 		const isPage = await Page.findOne({ slug });
 		if (isPage) {
-			throw new Error("Page already existed");
+			throw new BadRequestError("Page already existed");
 		}
 
 		const page = new Page({

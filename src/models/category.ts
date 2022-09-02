@@ -1,4 +1,4 @@
-import mongoose, { Document, Model, Schema } from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
 import { IUserDoc } from "./user";
 
 const CATEGORY_TABLE_NAME = "category";
@@ -6,18 +6,17 @@ interface ICategory {
 	title: string;
 	slug: string;
 	order: number;
+	icon: string;
 	active?: boolean;
 }
 
 interface ICategoryDoc extends ICategory, Document<ICategory> {}
-interface ICategoryModel extends ICategory, Model<ICategory> {
-	addCategory(attr: ICategory): ICategoryDoc;
-}
 
 const schema = new Schema(
 	{
 		title: { type: String, require: true, trim: true },
 		slug: { type: String, require: true, trim: true },
+		icon: { type: String, default: 0 },
 		active: { type: Boolean, default: true },
 		order: { type: Number, default: 0 },
 	},
@@ -32,9 +31,5 @@ const schema = new Schema(
 	}
 );
 
-schema.statics.addCategory = (cat: ICategory) => new Category(cat);
-const Category = mongoose.model<IUserDoc, ICategoryModel>(
-	CATEGORY_TABLE_NAME,
-	schema
-);
+const Category = mongoose.model<IUserDoc>(CATEGORY_TABLE_NAME, schema);
 export { CATEGORY_TABLE_NAME, Category, ICategoryDoc };

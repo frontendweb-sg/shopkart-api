@@ -19,9 +19,9 @@ const schema = new Schema(
 	{
 		title: { type: String, require: true },
 		slug: { type: String, require: true },
-		description: { type: String },
-		excerpt: { type: String },
-		heroImage: { type: String },
+		description: { type: String, default: "" },
+		excerpt: { type: String, default: "" },
+		heroImage: { type: String, default: "" },
 		order: { type: Number, default: 0 },
 		active: { type: Boolean, default: true },
 		status: {

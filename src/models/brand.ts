@@ -1,5 +1,4 @@
-import mongoose, { Document, Model, Schema } from "mongoose";
-import { IUserDoc } from "./user";
+import mongoose, { Document, Schema } from "mongoose";
 
 const BRAND_TABLE_NAME = "brand";
 interface IBrand {
@@ -10,9 +9,6 @@ interface IBrand {
 }
 
 interface IBrandDoc extends IBrand, Document<IBrand> {}
-interface IBrandModel extends IBrand, Model<IBrand> {
-	addBrand(attr: IBrand): IBrandDoc;
-}
 
 const schema = new Schema(
 	{
@@ -32,6 +28,5 @@ const schema = new Schema(
 	}
 );
 
-schema.statics.addBrand = (cat: IBrandDoc) => new Brand(cat);
-const Brand = mongoose.model<IBrandDoc, IBrandModel>(BRAND_TABLE_NAME, schema);
+const Brand = mongoose.model<IBrandDoc>(BRAND_TABLE_NAME, schema);
 export { BRAND_TABLE_NAME, Brand, IBrandDoc };

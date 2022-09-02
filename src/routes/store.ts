@@ -1,9 +1,9 @@
 import express from "express";
 import {
 	addStore,
-	deleteStore,
 	getStores,
 	updateStore,
+	deleteStore,
 } from "../controllers/store";
 
 const route = express.Router();

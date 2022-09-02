@@ -56,7 +56,7 @@ const updateStore = async (req: Request, res: Response, next: NextFunction) => {
 			{ next: true }
 		);
 
-		return res.status(201).send(store);
+		return res.status(200).send(store);
 	} catch (error) {
 		next(error);
 	}
@@ -108,4 +108,4 @@ const activeInactiveStore = async (
 };
 
 // Export
-export { getStores, addStore, updateStore, deleteStore, activeInactiveStore };
+export { getStores, addStore, updateStore, deleteStore };

@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { CustomError } from "../errors/custome-error";
 
 /**
  * Error Handler middleware
@@ -14,7 +15,10 @@ export const errorHandler = (
 	res: Response,
 	next: NextFunction
 ) => {
+	if (error instanceof CustomError) {
+		return res.status(error.statusCode).send({ errors: error.renderError() });
+	}
 	return res.send({
-		message: error.message,
+		message: "Something went worng!",
 	});
 };

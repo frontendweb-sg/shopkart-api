@@ -6,6 +6,7 @@ import {
 	getColors,
 } from "../controllers/color";
 import { body } from "express-validator";
+import { requestValidator } from "../middleware/request-validator";
 
 // declare route
 const route = express.Router();
@@ -17,6 +18,7 @@ route.post(
 		body("name", "color name is required!").notEmpty(),
 		body("hashcode", "color code is required!").notEmpty(),
 	],
+	requestValidator,
 	addColor
 );
 route.put(

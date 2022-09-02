@@ -1,4 +1,6 @@
 import { Request, Response, NextFunction } from "express";
+import { BadRequestError } from "../errors/bad-request-error";
+import { NotFoundError } from "../errors/not-found-error";
 import { Color, IColorDoc } from "../models/color";
 import { slugname } from "../utils";
 
@@ -32,7 +34,7 @@ const addColor = async (req: Request, res: Response, next: NextFunction) => {
 
 		const color = (await Color.findOne({ slug })) as IColorDoc;
 		if (color) {
-			throw new Error("Color already existed!");
+			throw new BadRequestError("Color already existed!");
 		}
 
 		const newColor = new Color({
@@ -65,7 +67,7 @@ const updateColor = async (req: Request, res: Response, next: NextFunction) => {
 		const colorId = req.params.colorId;
 		const color = await Color.findById(colorId);
 		if (!color) {
-			throw new Error("Brand not found!");
+			throw new NotFoundError("Color not found"!);
 		}
 
 		const result = await Color.findByIdAndUpdate(
@@ -82,6 +84,7 @@ const updateColor = async (req: Request, res: Response, next: NextFunction) => {
 
 		return res.status(200).send(result);
 	} catch (error) {
+		console.log(error);
 		next(error);
 	}
 };
@@ -97,7 +100,7 @@ const deleteColor = async (req: Request, res: Response, next: NextFunction) => {
 		const colorId = req.params.colorId;
 		const color = await Color.findById(colorId);
 		if (!color) {
-			throw new Error("Color not found!");
+			throw new NotFoundError("Color not found!");
 		}
 		await color.remove();
 		return res.status(200).send({ _id: colorId });
@@ -117,7 +120,7 @@ const activeInactiveColor = async (
 		const color = await Color.findById(brandId);
 
 		if (!color) {
-			throw new Error("Color not found!");
+			throw new NotFoundError("Color not found!");
 		}
 
 		if (status === "active") {

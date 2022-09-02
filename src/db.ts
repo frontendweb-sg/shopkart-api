@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { dbConfig } from "./config/db-config";
+import { DatabaseError } from "./errors/database-error";
 
 /**
  * connect db
@@ -10,7 +11,7 @@ const connectDb = async () => {
 		await mongoose.connect(DB_URL);
 		console.log("DATABASE CONNECTED!");
 	} catch (error) {
-		console.log("Database error", error);
+		throw new DatabaseError();
 	}
 };
 

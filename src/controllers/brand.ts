@@ -1,4 +1,6 @@
 import { Request, Response, NextFunction } from "express";
+import { BadRequestError } from "../errors/bad-request-error";
+import { NotFoundError } from "../errors/not-found-error";
 import { Brand, IBrandDoc } from "../models/brand";
 import { slugname } from "../utils";
 
@@ -32,7 +34,7 @@ const addBrand = async (req: Request, res: Response, next: NextFunction) => {
 
 		const brand = (await Brand.findOne({ slug })) as IBrandDoc;
 		if (brand) {
-			throw new Error("Brand already existed!");
+			throw new BadRequestError("Brand already existed!");
 		}
 
 		const newBrand = Brand.addBrand({
@@ -65,7 +67,7 @@ const updateBrand = async (req: Request, res: Response, next: NextFunction) => {
 		const brandId = req.params.brandId;
 		const brand = await Brand.findById(brandId);
 		if (!brand) {
-			throw new Error("Brand not found!");
+			throw new NotFoundError("Brand not found!");
 		}
 
 		const result = await Brand.findByIdAndUpdate(

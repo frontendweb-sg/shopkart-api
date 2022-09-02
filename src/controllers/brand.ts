@@ -29,10 +29,9 @@ let order = 0;
 const addBrand = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const { title } = req.body;
-
 		const slug = slugname(title);
-
 		const brand = (await Brand.findOne({ slug })) as IBrandDoc;
+
 		if (brand) {
 			throw new BadRequestError("Brand already existed!");
 		}
@@ -98,7 +97,7 @@ const deleteBrand = async (req: Request, res: Response, next: NextFunction) => {
 		const brandId = req.params.brandId;
 		const brand = await Brand.findById(brandId);
 		if (!brand) {
-			throw new Error("Brand not found!");
+			throw new NotFoundError("Brand not found!");
 		}
 		await brand.remove();
 		return res.status(200).send({ _id: brandId });
@@ -118,7 +117,7 @@ const activeInactiveBrand = async (
 		const brand = await Brand.findById(brandId);
 
 		if (!brand) {
-			throw new Error("Brand not found!");
+			throw new NotFoundError("Brand not found!");
 		}
 
 		if (status === "active") {

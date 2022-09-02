@@ -16,7 +16,7 @@ const schema = new Schema(
 	{
 		title: { type: String, require: true, trim: true },
 		slug: { type: String, require: true, trim: true },
-		icon: { type: String, default: 0 },
+		icon: { type: String, default: "" },
 		active: { type: Boolean, default: true },
 		order: { type: Number, default: 0 },
 	},

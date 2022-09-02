@@ -67,7 +67,7 @@ const updateCategory = async (
 	next: NextFunction
 ) => {
 	try {
-		const status = req.query?.query;
+		const status = req.query?.status;
 		if (status) {
 			return await activeInactiveCategory(req, res, next);
 		}
@@ -127,7 +127,7 @@ const activeInactiveCategory = async (
 	next: NextFunction
 ) => {
 	const categoryId = req.params.categoryId;
-	const status = req.query?.query;
+	const status = req.query?.status;
 	try {
 		const category = await Category.findById(categoryId);
 

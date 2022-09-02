@@ -59,7 +59,7 @@ const addBrand = async (req: Request, res: Response, next: NextFunction) => {
  */
 const updateBrand = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const status = req.query?.query;
+		const status = req.query?.status;
 		if (status) {
 			return await activeInactiveBrand(req, res, next);
 		}
@@ -114,7 +114,7 @@ const activeInactiveBrand = async (
 	next: NextFunction
 ) => {
 	const brandId = req.params.brandId;
-	const status = req.query?.query;
+	const status = req.query?.status;
 	try {
 		const brand = await Brand.findById(brandId);
 

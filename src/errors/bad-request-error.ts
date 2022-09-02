@@ -10,6 +10,8 @@ export class BadRequestError extends CustomError {
 		Object.setPrototypeOf(this, BadRequestError.prototype);
 	}
 	renderError() {
-		return [{ message: this.message, field: this.name }];
+		return [
+			{ message: this.message, status: this.statusCode, field: this.name },
+		];
 	}
 }

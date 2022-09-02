@@ -4,5 +4,9 @@ export abstract class CustomError extends Error {
 		super(msg);
 		Object.setPrototypeOf(this, CustomError.prototype);
 	}
-	abstract renderError(): { message: string; field?: string }[];
+	abstract renderError(): {
+		message: string;
+		status?: number;
+		field?: string;
+	}[];
 }

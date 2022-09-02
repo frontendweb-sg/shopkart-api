@@ -14,7 +14,7 @@ const schema = new Schema(
 	{
 		name: { type: String, require: true },
 		slug: { type: String, require: true },
-		hashcode: { type: String, require },
+		hashcode: { type: String, require: true, length: { min: 7, max: 7 } },
 		active: { type: Boolean, default: true },
 	},
 	{

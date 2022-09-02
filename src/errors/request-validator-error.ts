@@ -13,6 +13,7 @@ export class RequestValidationError extends CustomError {
 	renderError() {
 		return this.errors.map((error) => ({
 			message: error.msg,
+			status: this.statusCode,
 			field: error.param,
 		}));
 	}

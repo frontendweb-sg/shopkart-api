@@ -15,8 +15,11 @@ route.get("/", getColors);
 route.post(
 	"/",
 	[
-		body("name", "color name is required!").notEmpty(),
-		body("hashcode", "color code is required!").notEmpty(),
+		body("name", "Color name is required!").notEmpty(),
+		body("hashcode", "Color code will be valid hashcode!").isLength({
+			min: 7,
+			max: 7,
+		}),
 	],
 	requestValidator,
 	addColor
@@ -24,11 +27,13 @@ route.post(
 route.put(
 	"/:colorId",
 	[
-		body("name", "color name is required!").notEmpty(),
-		body("hashcode", "color code is required!")
-			.notEmpty()
-			.isLength({ min: 7, max: 7 }),
+		body("name", "Color name is required!").notEmpty(),
+		body("hashcode", "Color code will be valid hashcode.").isLength({
+			min: 7,
+			max: 7,
+		}),
 	],
+	requestValidator,
 	updateColor
 );
 route.delete("/:colorId", deleteColor);

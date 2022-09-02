@@ -1,10 +1,12 @@
 import express from "express";
+import { body } from "express-validator";
 import {
 	addCategory,
 	deleteCategory,
 	getCategories,
 	updateCategory,
 } from "../controllers/category";
+import { requestValidator } from "../middleware/request-validator";
 
 const route = express.Router();
 
@@ -14,9 +16,19 @@ const route = express.Router();
  */
 route.get("/", getCategories);
 
-route.post("/", addCategory);
+route.post(
+	"/",
+	[body("title", "Title is requried!").not().isEmpty()],
+	requestValidator,
+	addCategory
+);
 
-route.put("/:categoryId", updateCategory);
+route.put(
+	"/:categoryId",
+	[body("title", "Title is requried!").not().isEmpty()],
+	requestValidator,
+	updateCategory
+);
 
 route.delete("/:categoryId", deleteCategory);
 

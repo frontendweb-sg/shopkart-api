@@ -12,8 +12,8 @@ export const requestValidator = (
 	next: NextFunction
 ) => {
 	const values = validationResult(req);
-
 	if (!values.isEmpty()) {
 		throw new RequestValidationError(values.array());
 	}
+	next();
 };

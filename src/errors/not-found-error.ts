@@ -10,6 +10,9 @@ export class NotFoundError extends CustomError {
 		Object.setPrototypeOf(this, NotFoundError.prototype);
 	}
 	renderError() {
-		return [{ message: this.message, field: this.name }];
+		console.log("hi", this);
+		return [
+			{ message: this.message, status: this.statusCode, field: this.name },
+		];
 	}
 }

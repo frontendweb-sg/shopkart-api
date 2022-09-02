@@ -63,12 +63,14 @@ const updateBrand = async (req: Request, res: Response, next: NextFunction) => {
 			return await activeInactiveBrand(req, res, next);
 		}
 		const { title } = req.body;
+
 		const brandId = req.params.brandId;
 		const brand = await Brand.findById(brandId);
 		if (!brand) {
 			throw new NotFoundError("Brand not found!");
 		}
 
+		console.log(brand, req.body);
 		const result = await Brand.findByIdAndUpdate(
 			{ _id: brandId },
 			{
@@ -82,6 +84,7 @@ const updateBrand = async (req: Request, res: Response, next: NextFunction) => {
 
 		return res.status(200).send(result);
 	} catch (error) {
+		console.log(error);
 		next(error);
 	}
 };

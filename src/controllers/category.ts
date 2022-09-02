@@ -1,4 +1,6 @@
 import { Request, Response, NextFunction } from "express";
+import { BadRequestError } from "../errors/bad-request-error";
+import { NotFoundError } from "../errors/not-found-error";
 import { Category, ICategoryDoc } from "../models/category";
 import { slugname } from "../utils";
 
@@ -31,12 +33,11 @@ let order = 0;
 const addCategory = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const { title } = req.body;
-
 		const slug = slugname(title);
 
 		const category = (await Category.findOne({ slug })) as ICategoryDoc;
 		if (category) {
-			throw new Error("Category already existed!");
+			throw new BadRequestError("Category already existed!");
 		}
 
 		const newCat = Category.addCategory({
@@ -69,11 +70,13 @@ const updateCategory = async (
 		if (status) {
 			return await activeInactiveCategory(req, res, next);
 		}
+
 		const { title } = req.body;
 		const categoryId = req.params.categoryId;
+
 		const category = await Category.findById(categoryId);
 		if (!category) {
-			throw new Error("Category not found!");
+			throw new BadRequestError("Category not found!");
 		}
 
 		const result = await Category.findByIdAndUpdate(
@@ -108,7 +111,7 @@ const deleteCategory = async (
 		const categoryId = req.params.categoryId;
 		const cateogry = await Category.findById(categoryId);
 		if (!cateogry) {
-			throw new Error("Category not found!");
+			throw new NotFoundError("Category not found!");
 		}
 		await cateogry.remove();
 		return res.status(200).send({ _id: categoryId });
@@ -128,7 +131,7 @@ const activeInactiveCategory = async (
 		const category = await Category.findById(categoryId);
 
 		if (!category) {
-			throw new Error("Category not found!");
+			throw new NotFoundError("Category not found!");
 		}
 
 		if (status === "active") {

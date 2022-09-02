@@ -20,7 +20,7 @@ interface IProduct {
 	stock: number;
 	active: boolean;
 	status: string;
-	attributes: [{ name: String; value: String }];
+	attributes: { name: String; value: String }[];
 }
 
 interface IProductDoc extends IProduct, Document<IProduct> {}

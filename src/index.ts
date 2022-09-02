@@ -13,6 +13,7 @@ import { colorRoute } from "./routes/color";
 import { sizeRoute } from "./routes/size";
 import { pageRoute } from "./routes/page";
 import { productRoute } from "./routes/product";
+import { storeRoute } from "./routes/store";
 
 // App
 const app = express();
@@ -37,6 +38,7 @@ app.use("/api/color", colorRoute);
 app.use("/api/size", sizeRoute);
 app.use("/api/page", pageRoute);
 app.use("/api/product", productRoute);
+app.use("/api/store", storeRoute);
 
 app.use(errorHandler);
 // server listning

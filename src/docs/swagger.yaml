@@ -3,6 +3,7 @@ openapi: "3.0.0"
 info:
   version: "0.0. 1"
   title: Shopkart ecommerce api
+  description: Ecommerce api
   contact:
     email: "frontendweb.sg@gmail.com"
     url: "http://frontendweb.in"
@@ -14,6 +15,7 @@ paths:
   /brand:
     get:
       summary: Returns a list of brands
+      description: Get all the brands list
       responses:
         "200":
           description: Json array of brands
@@ -24,3 +26,42 @@ paths:
                 properties:
                   title:
                     type: string
+                  slug:
+                    type: string
+                  active:
+                    type: boolean
+                  order:
+                    type: number
+    post:
+      summary: Brand post
+      description: Add brand
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+            example:
+              title:
+                value: "Abc"
+                summary: Add any brand
+
+      responses:
+        "201":
+          description: Brand added
+          content:
+            application/json:
+              schema:
+                type: array
+                properties:
+                  title:
+                    type: string
+                  slug:
+                    type: string
+                  active:
+                    type: boolean
+                  order:
+                    type: number

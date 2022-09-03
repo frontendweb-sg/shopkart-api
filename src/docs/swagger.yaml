@@ -1,0 +1,26 @@
+openapi: "3.0.0"
+
+info:
+  version: "0.0. 1"
+  title: Shopkart ecommerce api
+  contact:
+    email: "frontendweb.sg@gmail.com"
+    url: "http://frontendweb.in"
+
+servers:
+  - url: http://localhost:4200/api
+
+paths:
+  /brand:
+    get:
+      summary: Returns a list of brands
+      responses:
+        "200":
+          description: Json array of brands
+          content:
+            application/json:
+              schema:
+                type: array
+                properties:
+                  title:
+                    type: string

@@ -16,6 +16,12 @@ import { productRoute } from "./routes/product";
 import { storeRoute } from "./routes/store";
 import session from "express-session";
 import morgan from "morgan";
+import YamlJs from "yamljs";
+import swaggerUi from "swagger-ui-express";
+
+const swaggerDocument = YamlJs.load(
+	path.resolve(__dirname, "./docs/swagger.yaml")
+);
 
 const sess = {
 	secret: process.env.SESSION_SECRET_KEY,
@@ -61,6 +67,7 @@ app.get("/api", (req, res, next) => {
 	});
 });
 
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/api/user", userRoute);
 app.use("/api/category", categoryRoute);
 app.use("/api/brand", brandRoute);

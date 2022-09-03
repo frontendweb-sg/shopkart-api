@@ -18,6 +18,7 @@ import session from "express-session";
 import morgan from "morgan";
 import YamlJs from "yamljs";
 import swaggerUi from "swagger-ui-express";
+import { roleRoute } from "./routes/role";
 
 const swaggerDocument = YamlJs.load(
 	path.resolve(__dirname, "./docs/swagger.yaml")
@@ -76,6 +77,7 @@ app.use("/api/size", sizeRoute);
 app.use("/api/page", pageRoute);
 app.use("/api/product", productRoute);
 app.use("/api/store", storeRoute);
+app.use("/api/role", roleRoute);
 
 // error handler
 app.use(errorHandler);

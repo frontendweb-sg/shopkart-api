@@ -12,6 +12,7 @@ import { increaseOrder, slugname } from "../utils";
  */
 const getBrands = async (req: Request, res: Response, next: NextFunction) => {
 	try {
+		console.log(req.user);
 		const brands = (await Brand.find().sort({ order: 1 })) as IBrandDoc[];
 		return res.status(200).send(brands);
 	} catch (error) {

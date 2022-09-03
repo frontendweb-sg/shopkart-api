@@ -24,4 +24,13 @@
  *
  * https://github.com/nicholaskajoh/fashion-ecommerce-platform-db-schema
  * https://github.com/tonyguesswho/Ecommerce-api/blob/deploy/src/models/attributeValue.js
+ *
+ *
+ *
+ * user:{
+ *   role:'user',
+ *   permission:['r','u','a','d']
+ * }
+ *
+ *
  */

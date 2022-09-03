@@ -8,7 +8,7 @@ const route = express.Router();
 route.get("/", getRoles);
 route.post(
 	"/",
-	[body("role", "Role name is required!")],
+	[body("role", "Role name is required!").not().isEmpty()],
 	requestValidator,
 	addRole
 );

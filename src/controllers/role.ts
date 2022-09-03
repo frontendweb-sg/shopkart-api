@@ -27,6 +27,7 @@ const getRoles = async (req: Request, res: Response, next: NextFunction) => {
  */
 const addRole = async (req: Request, res: Response, next: NextFunction) => {
 	try {
+		console.log();
 		req.body.slug = slugname(req.body.role);
 		const role = (await Role.findOne({ slug: req.body.slug })) as IRoleDoc;
 		if (role) throw new BadRequestError("Role already existed!");

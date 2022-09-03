@@ -6,7 +6,7 @@ import { CustomError } from "./custome-error";
 export class AuthError extends CustomError {
 	statusCode = 401;
 
-	constructor(public message: string = "Auauthrized access!") {
+	constructor(public message: string = "Unauthorized access!") {
 		super(message);
 		Object.setPrototypeOf(this, AuthError.prototype);
 	}

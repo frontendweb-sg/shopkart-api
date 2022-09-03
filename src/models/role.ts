@@ -1,16 +1,9 @@
 import mongoose, { Document, Schema } from "mongoose";
 
-enum Permission {
-	read = "read",
-	write = "write",
-	update = "update",
-	delete = "delete",
-}
-
 interface IRole {
 	role: string;
 	slug: string;
-	permission: Permission[];
+	permission: string[];
 	active: boolean;
 }
 
@@ -20,7 +13,7 @@ const schema = new Schema(
 	{
 		role: { type: String, require: true },
 		slug: { type: String, require: true },
-		permission: { type: [String], default: [Permission.read] },
+		permission: { type: [String], default: ["r"], enum: ["r", "w", "u", "d"] },
 	},
 	{
 		timestamps: true,

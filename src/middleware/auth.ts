@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
  * @param res
  * @param next
  */
-interface IUser {
+export interface IUser {
 	id: string;
 	email: string;
 	role: string;

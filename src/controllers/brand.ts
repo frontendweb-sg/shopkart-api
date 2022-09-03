@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from "express";
+import { AuthError } from "../errors/auth-error";
 import { BadRequestError } from "../errors/bad-request-error";
 import { NotFoundError } from "../errors/not-found-error";
+import { Roles } from "../middleware/role";
 import { Brand, IBrandDoc } from "../models/brand";
 import { increaseOrder, slugname } from "../utils";
 
@@ -12,7 +14,10 @@ import { increaseOrder, slugname } from "../utils";
  */
 const getBrands = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		console.log(req.user);
+		const role = await Roles(req.user);
+		if (!Array.from(role.permission).includes("r")) {
+			throw new AuthError("You don't have permission!");
+		}
 		const brands = (await Brand.find().sort({ order: 1 })) as IBrandDoc[];
 		return res.status(200).send(brands);
 	} catch (error) {

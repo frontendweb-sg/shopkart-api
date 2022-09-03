@@ -27,7 +27,6 @@ const getRoles = async (req: Request, res: Response, next: NextFunction) => {
  */
 const addRole = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		console.log();
 		req.body.slug = slugname(req.body.role);
 		const role = (await Role.findOne({ slug: req.body.slug })) as IRoleDoc;
 		if (role) throw new BadRequestError("Role already existed!");
@@ -50,8 +49,13 @@ const addRole = async (req: Request, res: Response, next: NextFunction) => {
 const updateRole = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const roleId = req.params.roleId;
-
 		req.body.slug = slugname(req.body.role);
+
+		const isRole = await Role.findOne({ slug: slugname(req.body.role) });
+		if (isRole) {
+			throw new BadRequestError("ROle already existed");
+		}
+
 		const role = await Role.findByIdAndUpdate(
 			roleId,
 			{
@@ -62,7 +66,7 @@ const updateRole = async (req: Request, res: Response, next: NextFunction) => {
 			}
 		);
 
-		return res.send(200).send(role);
+		return res.status(200).send(role);
 	} catch (error) {
 		next(error);
 	}

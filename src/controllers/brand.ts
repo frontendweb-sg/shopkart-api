@@ -14,10 +14,6 @@ import { increaseOrder, slugname } from "../utils";
  */
 const getBrands = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const role = await Roles(req.user);
-		if (!Array.from(role.permission).includes("r")) {
-			throw new AuthError("You don't have permission!");
-		}
 		const brands = (await Brand.find().sort({ order: 1 })) as IBrandDoc[];
 		return res.status(200).send(brands);
 	} catch (error) {

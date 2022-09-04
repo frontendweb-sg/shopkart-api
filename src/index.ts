@@ -19,6 +19,7 @@ import morgan from "morgan";
 import YamlJs from "yamljs";
 import swaggerUi from "swagger-ui-express";
 import { roleRoute } from "./routes/role";
+import { authRoute } from "./routes/auth";
 
 const swaggerDocument = YamlJs.load(
 	path.resolve(__dirname, "./docs/swagger.yaml")
@@ -70,6 +71,7 @@ app.get("/api", (req, res, next) => {
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/api/user", userRoute);
+app.use("/api/auth", authRoute);
 app.use("/api/category", categoryRoute);
 app.use("/api/brand", brandRoute);
 app.use("/api/color", colorRoute);

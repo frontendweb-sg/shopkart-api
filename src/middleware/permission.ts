@@ -15,6 +15,8 @@ export const Permision = (accessFlag: string, restrictUser?: string | null) => {
 			const roles = (await Role.findOne({ role: role })) as IRoleDoc;
 			const access = roles.permission.includes(accessFlag);
 
+			console.log(roles);
+
 			if (!access || role !== "user") {
 				throw new AuthError("You have no permission for perming this action.");
 			}

@@ -22,6 +22,26 @@ security:
   - bearerAuth: []
 
 paths:
+  /auth:
+    post:
+      summary: Login user
+      description: signin user by email and password
+      requestBody:
+        description: Login
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: Enter email
+                password:
+                  type: string
+                  description: Enter password
+      responses:
+        "200":
+          description: Success Login
   /brand:
     get:
       summary: Returns a list of brands

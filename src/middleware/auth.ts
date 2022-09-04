@@ -18,15 +18,16 @@ export const auth = (req: Request, res: Response, next: NextFunction) => {
 	if (!header) {
 		throw new AuthError();
 	}
-
 	const token = header.split(" ")[1];
 	let verify = null;
 	try {
 		verify = jwt.verify(token, process.env.SECRET_KEY!) as IUser;
 	} catch (error) {
+		console.log("error", error);
 		next(new AuthError());
 	}
 
+	console.log("auth", verify);
 	req.user = verify!;
 	next();
 };

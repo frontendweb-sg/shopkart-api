@@ -1,11 +1,21 @@
 import express from "express";
-import { getUsers, signin, signup } from "../controllers/user";
+import { body } from "express-validator";
+import { updateRole } from "../controllers/role";
+import { getUser, getUsers } from "../controllers/user";
+import { auth } from "../middleware/auth";
+import { Permision } from "../middleware/permission";
+import { ERole } from "../utils/enums/ERole";
 
 const route = express.Router();
 
-route.get("/", getUsers);
-
-// route.get("/:id", getUserById);
+route.get("/", auth, getUsers);
+route.get("/me", auth, getUser);
+route.put(
+	"/role",
+	[body("role", "Role is required!").isArray()],
+	auth,
+	updateRole
+);
 
 // route.put("/:id", updateUser);
 

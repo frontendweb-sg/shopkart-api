@@ -1,5 +1,7 @@
 import express from "express";
-import { signin, signup } from "../controllers/user";
+import { body } from "express-validator";
+import { signin, signup } from "../controllers/auth";
+import { requestValidator } from "../middleware/request-validator";
 
 const route = express.Router();
 
@@ -15,7 +17,18 @@ route.post("/", signin);
  * Access               Public
  * Url                  https://localhost:4200/api/auth/signup
  */
-route.post("/signup", signup);
+route.post(
+	"/signup",
+	[
+		body("firstname", "First name is required!").notEmpty(),
+		body("lastname", "Last name is required!").notEmpty(),
+		body("email", "Email is required!").notEmpty(),
+		body("password", "Password is required!").notEmpty(),
+		body("mobile", "Mobile is required!").notEmpty(),
+	],
+	requestValidator,
+	signup
+);
 
 // export
 export { route as authRoute };

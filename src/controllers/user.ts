@@ -81,6 +81,13 @@ const updateUserRole = async (
 	}
 };
 
+/**
+ * Delete user
+ * @param req
+ * @param res
+ * @param next
+ * @returns
+ */
 const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const users = await User.find();

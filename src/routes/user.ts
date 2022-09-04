@@ -8,7 +8,7 @@ import { ERole } from "../utils/enums/ERole";
 
 const route = express.Router();
 
-route.get("/", auth, getUsers);
+route.get("/", auth, Permision(), getUsers);
 route.get("/me", auth, getUser);
 route.put(
 	"/role",

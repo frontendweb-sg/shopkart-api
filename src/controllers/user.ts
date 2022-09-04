@@ -13,7 +13,6 @@ import { Jwt } from "../utils/jwt";
 const getUsers = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const users = (await User.find()) as IUserDoc[];
-		console.log("user", users);
 		return res.status(200).send(users);
 	} catch (error) {
 		next(error);
@@ -29,7 +28,7 @@ const getUsers = async (req: Request, res: Response, next: NextFunction) => {
  */
 const getUser = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const users = (await User.find()) as IUserDoc[];
+		const users = (await User.findById(req.user.id)) as IUserDoc;
 		console.log("user", users);
 		return res.status(200).send(users);
 	} catch (error) {

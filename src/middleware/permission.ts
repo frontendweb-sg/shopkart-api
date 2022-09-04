@@ -28,7 +28,9 @@ export const Permision = (...allowedRoles: string[]) => {
 			const role = (await Role.findOne({ role: req.user.role })) as IRoleDoc;
 
 			if (!role) {
-				throw new AuthError("Role does not existed");
+				throw new AuthError(
+					"You don't have permission to perform this action."
+				);
 			}
 
 			const access =

@@ -24,7 +24,7 @@ security:
 paths:
   /auth:
     post:
-      summary: Login user
+      summary: login user
       description: signin user by email and password
       requestBody:
         description: Login
@@ -50,8 +50,8 @@ paths:
         - "Auth"
   /auth/signup:
     post:
-      summary: Signup user
-      description: signup user
+      summary: register user
+      description: register user with role or without role
       requestBody:
         content:
           application/json:
@@ -83,8 +83,8 @@ paths:
         - "Auth"
   /brand:
     get:
-      summary: Returns a list of brands
-      description: Get all the brands list
+      summary: fetch brands list
+      description: Fetch all brands
       parameters:
         - name: x-access-token
           in: header
@@ -143,3 +143,23 @@ paths:
                     type: number
       tags:
         - "Brand"
+  /category:
+    get:
+      summary: fetch categories
+      description: Fetch all categories
+      responses:
+        "200":
+          description: List category
+      tags:
+        - "Category"
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "201":
+          description: Category added
+      tags:
+        - "Category"

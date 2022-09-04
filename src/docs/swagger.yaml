@@ -46,6 +46,8 @@ paths:
       responses:
         "200":
           description: Success Login
+      tags:
+        - "Auth"
   /auth/signup:
     post:
       summary: Signup user
@@ -77,6 +79,8 @@ paths:
       responses:
         "201":
           description: User successfully created
+      tags:
+        - "Auth"
   /brand:
     get:
       summary: Returns a list of brands
@@ -102,6 +106,8 @@ paths:
                     type: boolean
                   order:
                     type: number
+      tags:
+        - "Brand"
     post:
       summary: Brand post
       description: Add brand
@@ -135,3 +141,5 @@ paths:
                     type: boolean
                   order:
                     type: number
+      tags:
+        - "Brand"

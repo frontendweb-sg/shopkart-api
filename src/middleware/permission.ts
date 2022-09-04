@@ -8,20 +8,19 @@ import { IUserDoc, User } from "../models/user";
  * @param roles
  * @returns
  */
-export const Permision = (...roles: string[]) => {
+export const Permision = (accessFlag: string, restrictUser?: string | null) => {
 	return async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			const userId = req.user.id;
-			const user = (await User.findById(userId)) as IUserDoc;
-			const access = roles.includes(user.role);
+			const role = req.user.role;
+			const roles = (await Role.findOne({ role: role })) as IRoleDoc;
+			const access = roles.permission.includes(accessFlag);
 
-			if (!access) {
+			if (!access || role !== "user") {
 				throw new AuthError("You have no permission for perming this action.");
 			}
 
 			next();
 		} catch (error) {
-			console.log("e", error);
 			next(error);
 		}
 	};

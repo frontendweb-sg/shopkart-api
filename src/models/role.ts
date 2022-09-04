@@ -13,7 +13,11 @@ const schema = new Schema(
 	{
 		role: { type: String, require: true },
 		slug: { type: String, require: true },
-		permission: { type: [String], default: ["r"], enum: ["r", "w", "u", "d"] },
+		permission: {
+			type: [String],
+			default: ["read"],
+			enum: ["read", "create", "update", "delete"],
+		},
 	},
 	{
 		timestamps: true,

@@ -39,9 +39,44 @@ paths:
                 password:
                   type: string
                   description: Enter password
+            example:
+              email: "pradeep.kumar5@rsystems.com"
+              password: "Admin@123"
+
       responses:
         "200":
           description: Success Login
+  /auth/signup:
+    post:
+      summary: Signup user
+      description: signup user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstname:
+                  type: string
+                lastname:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                mobile:
+                  type: string
+                role:
+                  type: array
+            example:
+              firstname: "Pradeep"
+              lastname: "kumar"
+              email: "abc@gmail.com"
+              passsword: "admin@123"
+              role: "user"
+      responses:
+        "201":
+          description: User successfully created
   /brand:
     get:
       summary: Returns a list of brands

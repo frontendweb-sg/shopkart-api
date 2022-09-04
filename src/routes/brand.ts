@@ -13,7 +13,7 @@ import { PermisionLevel } from "../utils/enums/Permission";
 
 // declare route
 const route = express.Router();
-route.get("/", auth, getBrands);
+route.get("/", auth, Permision(PermisionLevel.read), getBrands);
 route.post(
 	"/",
 	[body("title", "title is required!").notEmpty()],

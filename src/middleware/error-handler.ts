@@ -15,7 +15,6 @@ export const errorHandler = (
 	res: Response,
 	next: NextFunction
 ) => {
-	console.log("e", error instanceof CustomError, error.message);
 	if (error instanceof CustomError) {
 		return res.status(error.statusCode).send({ errors: error.renderError() });
 	}

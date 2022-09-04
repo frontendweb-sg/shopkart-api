@@ -18,6 +18,7 @@ export const auth = (req: Request, res: Response, next: NextFunction) => {
 	if (!header) {
 		throw new AuthError();
 	}
+
 	const token = header.split(" ")[1];
 	let verify = null;
 	try {

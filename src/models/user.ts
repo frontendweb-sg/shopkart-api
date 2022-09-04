@@ -29,7 +29,11 @@ const schema = new Schema(
 		email: { type: String, required: true, trim: true, unique: true },
 		password: { type: String, require: true },
 		mobile: { type: String, require: true },
-		role: { type: String, default: ERole.user, enum: ERole },
+		role: {
+			type: [String],
+			default: [ERole.user],
+			enum: [ERole.admin, ERole.superadmin, ERole.user],
+		},
 		active: { type: String, default: true },
 		verify: { type: Boolean, default: false },
 	},

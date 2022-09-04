@@ -1,8 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import { AuthError } from "../errors/auth-error";
 import { BadRequestError } from "../errors/bad-request-error";
 import { NotFoundError } from "../errors/not-found-error";
-import { Roles } from "../middleware/role";
 import { Brand, IBrandDoc } from "../models/brand";
 import { increaseOrder, slugname } from "../utils";
 

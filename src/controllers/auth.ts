@@ -49,8 +49,6 @@ const signup = async (req: Request, res: Response, next: NextFunction) => {
 		const { firstname, lastname, email, password, mobile, role } = req.body;
 		const user = (await User.findOne({ email })) as IUserDoc;
 
-		console.log("admin", req.body);
-
 		if (user) {
 			throw next(new Error("Email already existed!"));
 		}
@@ -71,6 +69,12 @@ const signup = async (req: Request, res: Response, next: NextFunction) => {
 	}
 };
 
+/**
+ * Forgot password
+ * @param req
+ * @param res
+ * @param next
+ */
 const forgotPassword = async (
 	req: Request,
 	res: Response,

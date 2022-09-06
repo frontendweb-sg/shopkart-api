@@ -10,16 +10,30 @@ interface IAddress {
 	city: string;
 	zip: string;
 }
+interface IAddress {
+	billing: IAddress;
+	shipping: IAddress;
+}
 
 interface IAddressDoc extends IAddress, Document<IAddress> {}
 
 const schema = new Schema({
-	user: { type: Types.ObjectId, ref: USER_TABLE_NAME, require: true },
-	address: { type: String, require: true },
-	landmark: { type: String },
-	state: { type: String, require: true },
-	city: { type: String, require: true },
-	zip: { type: String, require: true },
+	billing: {
+		user: { type: Types.ObjectId, ref: USER_TABLE_NAME, require: true },
+		address: { type: String, require: true },
+		landmark: { type: String },
+		state: { type: String, require: true },
+		city: { type: String, require: true },
+		zip: { type: String, require: true },
+	},
+	shipping: {
+		user: { type: Types.ObjectId, ref: USER_TABLE_NAME, require: true },
+		address: { type: String, require: true },
+		landmark: { type: String },
+		state: { type: String, require: true },
+		city: { type: String, require: true },
+		zip: { type: String, require: true },
+	},
 });
 
 const Address = mongoose.model<IAddressDoc>(ADDRESS_TABLE_NAME, schema);

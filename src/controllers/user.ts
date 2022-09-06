@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { AuthError } from "../errors/auth-error";
 import { IUserDoc, User, USER_TABLE_NAME } from "../models/user";
 import { ERole } from "../utils/enums/ERole";
 import { Password } from "../utils/enums/Password";
@@ -46,6 +47,12 @@ const getUser = async (req: Request, res: Response, next: NextFunction) => {
 const updateUser = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const { firstname, lastname } = req.body;
+		const user = await User.findByIdAndUpdate(
+			req.user.id,
+			{ $set: { firstname, lastname } },
+			{ new: true }
+		);
+		return res.status(200).send(user);
 	} catch (error) {
 		next(error);
 	}
@@ -65,6 +72,10 @@ const updateUserRole = async (
 ) => {
 	try {
 		const userId = req.user.id;
+		const isUser = await User.findById(userId);
+		if (["superadmin", "admin"].includes(isUser?.role!)) {
+			throw new AuthError("Admin or superadmin role can not be changed!");
+		}
 		const user = await User.findByIdAndUpdate(
 			userId,
 			{

@@ -47,11 +47,6 @@ const signin = async (req: Request, res: Response, next: NextFunction) => {
 const signup = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const { firstname, lastname, email, password, mobile, role } = req.body;
-		const user = (await User.findOne({ email })) as IUserDoc;
-
-		if (user) {
-			throw next(new Error("Email already existed!"));
-		}
 
 		const newUser = User.addUser({
 			firstname,

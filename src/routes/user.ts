@@ -10,6 +10,14 @@ const route = express.Router();
 route.get("/", auth, Permision(), getUsers);
 route.get("/me", auth, getUser);
 route.put(
+	"/me",
+	[
+		body("firstname", "First name is required!").notEmpty(),
+		body("lastname", "Last name is required!").notEmpty(),
+	],
+	updateUser
+);
+route.put(
 	"/role",
 	[body("role", "Role is required!").isArray()],
 	auth,

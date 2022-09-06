@@ -1,17 +1,35 @@
 openapi: "3.0.0"
 
 info:
+  title: Shopkart api
   version: "0.0. 1"
-  title: Shopkart ecommerce api
-  description: Ecommerce api
+  description: Basic documentation for shopkart
   contact:
-    email: "frontendweb.sg@gmail.com"
-    url: "http://frontendweb.in"
+    name: Shopkart
+    email: frontendweb.sg@gmail.com
+    url: http://frontendweb.in
 
 servers:
   - url: http://localhost:4200/api
 
 components:
+  # schemas:
+  #   messageError:
+  #     type: object
+  #     properties:
+  #       description:
+  #         type: string
+  #         example: Error Message
+  #   unauthorizedError:
+  #     type: object
+  #     properties:
+  #       description:
+  #         type: string
+  #         example: Error Message
+  #       Message:
+  #         type: string
+  #         example: Error Message
+
   securitySchemes:
     bearerAuth:
       type: http
@@ -75,12 +93,62 @@ paths:
               lastname: "kumar"
               email: "abc@gmail.com"
               passsword: "admin@123"
-              role: "user"
+              role: ["user"]
       responses:
         "201":
           description: User successfully created
       tags:
         - "Auth"
+  /user:
+    get:
+      tags:
+        - "Users"
+      responses:
+        "200":
+          description: All users
+  /user/me:
+    get:
+      tags:
+        - "Users"
+      responses:
+        "200":
+          description: All users
+    post:
+      tags:
+        - "Users"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstname:
+                  type: string
+                lastname:
+                  type: string
+            example:
+              firstname: "Pradeep"
+              lastname: "kumar"
+      responses:
+        "200":
+          description: User detail updated
+  /user/role:
+    put:
+      tags:
+        - "User"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              properties:
+                role:
+                  type: array
+            example:
+              role: ["user", "admin"]
+      responses:
+        "200":
+          description: Role updated
   /brand:
     get:
       summary: fetch brands list
@@ -143,6 +211,20 @@ paths:
                     type: number
       tags:
         - "Brand"
+  /brand/{brandId}:
+    delete:
+      description: Delete brand by brand id
+      parameters:
+        - in: path
+          name: brandId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Brand deleted successfully
+      tags:
+        - "Brand"
   /category:
     get:
       summary: fetch categories
@@ -163,3 +245,172 @@ paths:
           description: Category added
       tags:
         - "Category"
+  /category/{categoryId}:
+    delete:
+      tags:
+        - "Category"
+      description: Delete category by category id
+      parameters:
+        - in: path
+          name: categoryId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Category deleted successfully
+  /color:
+    get:
+      tags:
+        - "Colors"
+      responses:
+        "200":
+          description: ok
+    post:
+      tags:
+        - "Colors"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: ok
+  /color/{colorId}:
+    delete:
+      parameters:
+        - in: path
+          name: colorId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Color deleted successfully
+      tags:
+        - "Colors"
+  /size:
+    get:
+      tags:
+        - "Size"
+      responses:
+        "200":
+          description: ok
+    post:
+      tags:
+        - "Size"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: ok
+  /size/{sizeId}:
+    delete:
+      tags:
+        - "Size"
+      parameters:
+        - in: path
+          name: sizeId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Size deleted successfully
+  /product:
+    get:
+      tags:
+        - "Product"
+      responses:
+        "200":
+          description: ok
+    post:
+      tags:
+        - "Product"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: ok
+  /product/{productId}:
+    delete:
+      tags:
+        - "Product"
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Product deleted successfully
+  /role:
+    get:
+      tags:
+        - "Role"
+      responses:
+        "200":
+          description: ok
+    post:
+      tags:
+        - "Role"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: ok
+  /role/{roleId}:
+    delete:
+      tags:
+        - "Role"
+      parameters:
+        - in: path
+          name: roleId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Role deleted successfully
+  /page:
+    get:
+      tags:
+        - "Page"
+      responses:
+        "200":
+          description: ok
+    post:
+      tags:
+        - "Page"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: ok
+  /page/{pageId}:
+    delete:
+      tags:
+        - "Page"
+      parameters:
+        - in: path
+          name: pageId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Page deleted successfully

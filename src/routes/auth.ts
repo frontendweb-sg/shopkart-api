@@ -28,7 +28,7 @@ route.post(
 			.notEmpty()
 			.custom(async (value) => {
 				const user = await User.findOne({ email: value });
-				if (!user) {
+				if (user) {
 					throw new BadRequestError("Email already existed!");
 				}
 				return user;

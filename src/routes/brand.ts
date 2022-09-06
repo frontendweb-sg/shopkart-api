@@ -13,13 +13,13 @@ import { PermisionLevel } from "../utils/enums/Permission";
 
 // declare route
 const route = express.Router();
-route.get("/", auth, Permision(PermisionLevel.read), getBrands);
+route.get("/", auth, Permision(), getBrands);
 route.post(
 	"/",
 	[body("title", "title is required!").notEmpty()],
 	requestValidator,
 	auth,
-	Permision(PermisionLevel.create),
+	Permision(),
 	addBrand
 );
 route.put(
@@ -27,10 +27,10 @@ route.put(
 	[body("title", "title is required!").notEmpty()],
 	requestValidator,
 	auth,
-	Permision(PermisionLevel.update),
+	Permision(),
 	updateBrand
 );
-route.delete("/:brandId", auth, Permision(PermisionLevel.delete), deleteBrand);
+route.delete("/:brandId", auth, Permision(), deleteBrand);
 
 // export
 export { route as brandRoute };

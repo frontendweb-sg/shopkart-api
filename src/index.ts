@@ -21,9 +21,10 @@ import swaggerUi from "swagger-ui-express";
 import { roleRoute } from "./routes/role";
 import { authRoute } from "./routes/auth";
 
-const swaggerDocument = YamlJs.load(
-	path.resolve(__dirname, "./docs/swagger.yaml")
-);
+function loadYaml() {
+	return YamlJs.load(path.resolve(__dirname, "./docs/swagger.yaml"));
+}
+let swaggerDocument = loadYaml();
 
 const sess = {
 	secret: process.env.SESSION_SECRET_KEY,

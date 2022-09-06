@@ -25,11 +25,14 @@ export const Permision = (...allowedRoles: string[]) => {
 		try {
 			const rolesArray = [...allowedRoles, ERole.superadmin];
 			const method: string = req.method.toLowerCase();
-			const role = (await Role.findOne({ role: req.user.role })) as IRoleDoc;
+			const role = (await Role.findOne({
+				role: { $in: req.user.role },
+			})) as IRoleDoc;
 
+			console.log(role);
 			if (!role) {
 				throw new AuthError(
-					"You don't have permission to perform this action."
+					"You don't have permission to perform this action. or role does not exists."
 				);
 			}
 
@@ -40,20 +43,6 @@ export const Permision = (...allowedRoles: string[]) => {
 			if (!access) {
 				throw new AuthError("You have no permission for perming this action.");
 			}
-			// if (roles && roles.length > 0) {
-			// 	const allRoles = roles;
-			// } else {
-
-			// }
-
-			// if (!role) {
-			// 	throw new BadRequestError("Role not found!");
-			// }
-			// const access = role.permission.includes(accessFlag);
-
-			// if (!access || role !== "user") {
-			// 	throw new AuthError("You have no permission for perming this action.");
-			// }
 
 			next();
 		} catch (error) {
